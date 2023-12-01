@@ -316,8 +316,9 @@ pub enum Sub {
         ///   json = JSON format with newline/indent.{n}
         ///   jsonl = JSON Lines (http://jsonlines.org). i.e. one item per line.{n}
         ///   json-compact = JSON format, all items are packed in oneline.{n}
-        ///   csv = comma-separated values with header. Use it with --keys-only or --attributes. If neither of them are given dynein will ask you target attributes interactively.
-        #[structopt(short, long, possible_values = &["csv", "json", "jsonl", "json-compact"])]
+        ///   csv = comma-separated values with header. Use it with --keys-only or --attributes. If neither of them are given dynein will ask you target attributes interactively.{n}
+        ///   raw = DynamoDB JSON.{n}
+        #[structopt(short, long, possible_values = &["csv", "json", "jsonl", "json-compact", "raw"])]
         format: Option<String>,
 
         /// [csv] Specify attributes to export, separated by commas (e.g. --attributes name,address,age). Effective only when --format is 'csv'.{n}

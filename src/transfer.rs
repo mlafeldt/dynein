@@ -231,6 +231,17 @@ pub async fn export(
                 );
                 tmp_output_file.write_all(s.as_bytes())?;
             }
+            Some("raw") => {
+                // XXX: JSONL or not?
+                // let items = serde_json::to_vec(&items)?;
+                // tmp_output_file.write_all(&items)?;
+                let mut s: String = String::new();
+                for item in &items {
+                    s.push_str(&serde_json::to_string(&item)?);
+                    s.push('\n');
+                }
+                tmp_output_file.write_all(s.as_bytes())?;
+            }
             Some(o) => panic!("Invalid output format is given: {}", o),
         }
         progress_status.show();
@@ -250,7 +261,7 @@ pub async fn export(
     match format_str {
         None | Some("json") => json_finish(f, tmp_output_filename)?.write_all(b"\n]")?,
         Some("json-compact") => json_finish(f, tmp_output_filename)?.write_all(b"]")?,
-        Some("jsonl") => jsonl_finish(f, tmp_output_filename)?,
+        Some("jsonl") | Some("raw") => jsonl_finish(f, tmp_output_filename)?,
         Some("csv") => csv_finish(
             f,
             tmp_output_filename,
